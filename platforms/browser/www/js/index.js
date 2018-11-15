@@ -56,59 +56,66 @@ var app = {
 
 
 
- var result = "";
- var text = ""; 
+ var result = ""; //TO show the result
+ var text = ""; //to store the user input amount
  
 var http = new XMLHttpRequest();
 
 
 http.onreadystatechange = (e) => {
-    var response = http.responseText
-    var responseJSON = JSON.parse(response);
-    var data = responseJSON.quotes;
-    var keys = Object.keys(data);
-    var quotesForView = "";
+    
+    
+    var response = http.responseText   //saving all the response in of api in var responce 
+    var responseJSON = JSON.parse(response); //pasrsing it into JSON
+    var data = responseJSON.quotes; //storing the quotes (object )in  var keys
+    var keys = Object.keys(data); //accessing each key
+    var quotesForView = ""; //this is for viewing
 
-    text=document.getElementById('amount').value;
+
+    text=document.getElementById('amount').value;  //Storing the user input 
     
     console.log(text);
         
+    // Currency  is MULTIPLYING by the user input to convenrt the USD to EUR
     keys.forEach((element) =>{
         quotesForView = text+ " USD is equivalent to " + data['USDEUR']*text+" EUR"+ "<br>";
         
         });
         
-        document.getElementById('result').innerHTML = quotesForView ;
+        document.getElementById('result').innerHTML = quotesForView ; //shows the conversion
+        
 }
 
+//get  the data from Api
+http.open("GET", 'http://apilayer.net/api/live?access_key=bffef61329e7158c163c05c247224e03&currencies=USD,EUR&source=USD&format=1');
+http.send();
 
 
+                 // ****************EUR TO USD*******
 
-                // ****************EUR TO USD*******
 
-
-                var text2 = ""; 
+                var text2 = ""; //to store the user input amount
                 
                var http1 = new XMLHttpRequest();
 
                http1.onreadystatechange = (e) => {
 
-            
-            
-                var response = http.responseText
-                var responseJSON = JSON.parse(response);
-                var data = responseJSON.quotes;
-                var keys = Object.keys(data);
-                var quotesForView2 = "";
+                var response = http.responseText //saving all the response in of api in var responce 
+                var responseJSON = JSON.parse(response); //pasrsing it into JSON
+                var data = responseJSON.quotes;  //storing the quotes (object )in  var keys
+                var keys = Object.keys(data);//accessing each key
+                var quotesForView2 = ""; //this is for viewing
             
             
                 text2=document.getElementById('amount2').value;
                 
                 console.log(text2);
                     
-                
+            
+
+                // Currency  is divided by the user input to convenrt the EUR to USD
                 keys.forEach((element) =>{
-                    quotesForView2 = text2+ " EUR is equivalent to " + data['USDUSD']*text2+" USD"+ "<br>";
+                    quotesForView2 = text2+ " EUR is equivalent to " + text2/data['USDEUR']+" USD"+ "<br>";
                     
                     });
                     
@@ -116,7 +123,3 @@ http.onreadystatechange = (e) => {
                     
             }
 
-
-
-            http.open("GET", 'http://apilayer.net/api/live?access_key=bffef61329e7158c163c05c247224e03&currencies=USD,EUR&source=USD&format=1');
-            http.send();
